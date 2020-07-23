@@ -90,11 +90,11 @@ False
 mult :: Num a => a -> a -> a -> a
 mult = \x -> \y ->\ z -> x * y * z
 
->:type (mult 3) 
-:: Num a => a -> a -> a
+-- >:type (mult 3) 
+-- :: Num a => a -> a -> a
 
->:type (mult 3 4)
-:: Num a => a -> a
+-- >:type (mult 3 4)
+-- :: Num a => a -> a
 
 map (mult 3 4) [1..10]
-[12,24,36,48,60,72,84,96,108,120]
+[12, 24, 36, 48, 60, 72, 84, 96, 108, 120]
