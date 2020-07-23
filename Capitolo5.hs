@@ -1,5 +1,5 @@
-1. Using a list comprehension, give an expression that calculates the sum
-1^2 + 2^2 + . . . 100^2 of the first one hundred integer squares.
+//1. Using a list comprehension, give an expression that calculates the sum
+//1^2 + 2^2 + . . . 100^2 of the first one hundred integer squares.
 
 sum [x * x | x <- [1..100]]
 
