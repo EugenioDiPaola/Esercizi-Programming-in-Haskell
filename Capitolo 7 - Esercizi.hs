@@ -141,8 +141,8 @@ uncurry :: (a -> (b -> c)) -> ((a, b) -> c)
 
 -- 7. A higher-order function unfold that encapsulates a simple pattern of recursion 
 -- for producing a list can be defined as follows:
--- unfold p h t x | p x = [ ]
---                | otherwise = h x : unfold p h t (t x)
+unfold p h t x | p x = [ ]
+               | otherwise = h x : unfold p h t (t x)
 -- That is, the function unfold p h t produces the empty list if the predicate p
 -- is true of the argument value, and otherwise produces a non-empty list by
 -- applying the function h to this value to give the head, and the function t
@@ -152,7 +152,20 @@ uncurry :: (a -> (b -> c)) -> ((a, b) -> c)
 -- int2bin = unfold (== 0) (‘mod‘ 2) (‘div‘ 2)
 -- Redefine the functions chop8, map f and iterate f using unfold.
 
-chop8 =  unfold p (take 8 xs) () xs
+-- Ricordiamo che:
+-- chop8 :: [Bit] -> [[Bit]]
+-- chop8 [] = []
+-- chop8 bits = take 8 bits : chop8 (drop 8 bits)
+-- dove type Bit = Int;
+-- iterate :: (a -> a) -> a -> [a]
+-- iterate f x = x : iterate f (f x)
+-- Allora:
+
+chop8 xs = unfold (\l -> (length l == 0)) (take 8) (drop 8) xs
+
+map f xs = unfold (\l -> (length l == 0)) (f . head) (tail) xs
+
+iterate f xs = unfold (\l -> (length l == 0)) (head) (map f) xs
 
 
 -- 7. Modify the binary string transmitter example to detect simple transmission
