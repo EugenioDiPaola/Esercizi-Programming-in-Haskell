@@ -20,8 +20,8 @@ halve1 xs |even (length xs) = (firstN xs n, lastN xs n)
 
 halve2 :: [a] -> ([a], [a])
 halve2 xs |even (length xs) = (take (div (length xs) 2) xs, drop (div (length xs) 2) xs)
-	  |odd (length xs) = (take ((div (length xs) 2) + 1) xs, drop (div (length xs) 2) xs)
-          	where n = div (length xs) 2
+	  |odd (length xs) = (take (d + 1) xs, drop d xs)
+          	where d = div (length xs) 2
 
 	
 -- 2. Consider a function safetail :: [a] -> [a] that behaves as the library
@@ -52,27 +52,18 @@ True ||\ False = True
 False ||\ True = True
 False ||\ False = False
 
-(|||) :: Bool -> Bool -> Bool
-False ||| False = False
-_ ||| _ = True
-
-che è ovviamente equivalente a
-(|||) :: Bool -> Bool -> Bool
-(|||) False False = False
-(|||) _ _ = True
-
--- > ||| False True
--- True
--- > False ||| True
--- True
-
 (|\|) :: Bool -> Bool -> Bool
-False
+False |\| False = False
+_ |\| _ = True
 
-(||?) :: Bool -> Bool -> Bool
-(||?) a b |a == b = b
+(|||) :: Bool -> Bool -> Bool
+True ||| _ = True
+False ||| b = b
+
+(||^) :: Bool -> Bool -> Bool
+(||^) c d |c == d = d
           |otherwise = True
-
+	  
 
 -- 4. Redefine the following version of the conjunction operator using conditional expressions 
 -- rather than pattern matching:
