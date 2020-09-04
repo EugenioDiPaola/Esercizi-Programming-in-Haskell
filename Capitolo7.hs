@@ -1,3 +1,14 @@
+-- CHAPTER 7 - HIGHER-ORDER FUNCTIONS - Programming with Haskell - Graham Hutton - Edizione II (2016) 
+-- Per comodità mi riporto qua le definizioni di foldr e foldl come definite nello standard prelude:
+
+foldr :: (a -> b -> b) -> b -> [a] -> b
+foldr f v [] = v
+foldr f v (x:xs) = f x (foldr f v xs)
+
+foldl :: (a -> b -> a) -> a -> [b] -> a
+foldl f v [] = v
+foldl f v (x:xs) = foldl f (f v x) xs
+
 -- 1. Show how the list comprehension [f x | x <- xs, p x ] can be re-expressed
 -- using the higher-order functions map and filter.
 
@@ -56,16 +67,6 @@ dropWhile p [] = []
 dropWhile | p (x:xs) = dropWhile p xs
           | not (x:xs) = xs
 
--- Le funzioni foldr e foldl sono così definiti nello standard prelude:
-
-foldr :: (a -> b -> b) -> b -> [a] -> b
-foldr f v [] = v
-foldr f v (x:xs) = f x (foldr f v xs)
-
-foldl :: (a -> b -> a) -> a -> [b] -> a
-foldl f v [] = v
-foldl f v (x:xs) = foldl f (f v x) xs
-
 
 -- 3. Redefine the functions map f and filter p using foldr.
 
@@ -91,7 +92,8 @@ filter p (x:xs) = foldr (\x xs -> if (p x) then x:xs else xs) [] (x:xs)
 -- > dec2int [2,3,4,5]
 -- 2345
 
-
+dec2int :: [a] -> a
+dec2int (x:xs) = foldl (\x xs -> x * 10 + xs) 0 (x:xs)
 
 -- 5. Without looking at the definitions from the standard prelude, define the
 -- higher-order library function curry that converts a function on pairs into
