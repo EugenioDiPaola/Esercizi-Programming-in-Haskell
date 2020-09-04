@@ -23,15 +23,6 @@ square :: Int -> [(Int, Int)]
 square n = filter (\(x, y) -> not (x == y) ) (grid n n)
 
 
--- 3. A triple (x, y, z) of positive integers can be termed pythagorean if x^2 +
--- y^2 = z^2. Using a list comprehension, define a function pyths :: Int ->
--- [(Int, Int, Int)] that returns the list of all pythagorean triples whose
--- components are at most a given limit. For example:
--- > pyths 10
--- [(3, 4, 5), (4, 3, 5), (6, 8, 10), (8, 6, 10)]
-
-
-
 -- 4. In a similar way to the function length, show how the library function
 -- replicate :: Int -> a -> [a] that produces a list of identical elements can
 -- be defined using a list comprehension. For example:
@@ -40,6 +31,15 @@ square n = filter (\(x, y) -> not (x == y) ) (grid n n)
 
 replicate :: Int -> a -> [a]
 replicate n x = [x | _ <- [1..n]]
+
+
+-- 5. A triple (x, y, z) of positive integers is Pythagorean if it satisfies the equation
+-- x^2 + y^2 + z^2. Using a list comprehension with three generators, define a
+-- function pyths :: Int -> [(Int, Int, Int)] that returns the list of all such
+-- triples whose components are at most a given limit. For example:
+-- > pyths 10
+-- [(3,4,5),(4,3,5),(6,8,10),(8,6,10)]
+
 pyths :: Int -> [(Int, Int, Int)]
 pyths n = [(x, y, z) | x <- [1..n], y <- [1..n], z <- [1..n], x^2 + y^2 == z^2]
 
