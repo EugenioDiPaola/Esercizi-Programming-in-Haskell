@@ -1,7 +1,7 @@
 
 -- CH.6 RECURSIVE FUNCTIONS - Programming in Haskell - Graham Hutton - II Edizione (2016)
 
--- Compilatore: ghci
+-- Interpreter: GHCi
 
 -- 1. How does the recursive version of the factorial function behave if applied to a
 -- negative argument, such as (-1)? Modify the definition to prohibit negative
