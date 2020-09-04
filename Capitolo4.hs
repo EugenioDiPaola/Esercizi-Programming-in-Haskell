@@ -8,14 +8,22 @@ firstN _ 0 = []
 firstN (x:xs) n = x : (firstN xs (n-1))
 
 lastN :: [a] -> Int -> [a]
+lastN _ 0 = []
 lastN xs n = reverse (take n (reverse xs))
 
-halve :: [a] -> [[a]]
-halve xs |even (length xs) = [firstN xs n, lastN xs n]
-	 |odd (length xs) = [firstN xs (n+1), lastN xs (n+1)]
-          where n = div (length xs) 2
+halve1 :: [a] -> ([a], [a])
+halve1 xs |even (length xs) = (firstN xs n, lastN xs n)
+	  |odd (length xs) = (firstN xs (n+1), lastN xs (n+1))
+          	where n = div (length xs) 2
+	   
+-- oppure:
 
+halve2 :: [a] -> ([a], [a])
+halve2 xs |even (length xs) = (take (div (length xs) 2) xs, drop (div (length xs) 2) xs)
+	  |odd (length xs) = (take ((div (length xs) 2) + 1) xs, drop (div (length xs) 2) xs)
+          	where n = div (length xs) 2
 
+	
 -- 2. Consider a function safetail :: [a] -> [a] that behaves as the library
 -- function tail, except that safetail maps the empty list to itself, whereas
 -- tail produces an error in this case. Define safetail using:
