@@ -22,52 +22,59 @@ sumdown x | x < 0 = 0
           | x == 0 = 0
           | x > 0 = x + sumdown (x - 1)
 	  
-
 -- 3. Define the exponentiation operator ^ for non-negative integers using the
 -- same pattern of recursion as the multiplication operator *, and show
 -- how 2 ^ 3 is evaluated using your definition.
 
 -- * in forma ricorsiva è:
 
-(*) :: Int -> Int -> Int
-(*) m n | m == 0 || n == 0 = 0 
-        | m < 0
-(*) m n = (*) m (n - 1)
-
--- dunque: 
-
 (^) :: Int -> Int -> Int
-(^) m ^ 0 = 1
-(^) m ^ (n + 1) = m * (m ^ n)
-
--- ghci non mi compila entrambe, mi da come errore 
--- error: Parse error in pattern: n + 1.
--- però la risposta al quesito dovrebbe essere corretta.
-
--- in alternativa, sempre ricorsivamente:
-
-(^) :: Int -> Int -> Int
-(^) m 0 = m ^ 0 = 1
-(^) m ^ n = m * (^) m n - 1
+| m < 0
+(^) m 0 = 1
+(^) m n = m * m ^ (n - 1)
 
 
--- 2. Using the definitions given in this chapter, show how length [1, 2, 3],
+{- 2 ^ 3
+ - 2 * 2 ^ (3 - 1)
+ - 2 * 2 ^ 2
+ - 2 * (2 * 2^(2-1))
+ - 2 * (2 * 2^1)
+ - 2 * (2 * (2 * 2^(1 - 1)))
+ - 2 * (2 * (2 * 2^0))
+ - 2 * (2 * (2 * 1))
+ - 2 * (2 * 2)
+ - 2 * 4
+ - 8
+ -}
 
-drop 3 [1, 2, 3, 4, 5], and init [1, 2, 3] are evaluated.
+-- Non mi è chiarissimo perché si ferma a 0 e non diminuisce l'esponenete anche nei numeri negativi 
 
--- non c'ho voglia, dai, che palle
 
--- 3. Without looking at the definitions from the standard prelude, define the
+-- 4. Define a recursive function e u c l i d : : I n t - > I n t - > I n t that implements
+-- Euclid’s algorithm for calculating the greatest common divisor of two nonnegative integers: if the two numbers are equal, this number is the result;
+-- otherwise, the smaller number is subtracted from the larger, and the same
+-- process is then repeated. For example:
+-- > euclid 6 27
+-- 3
+
+
+-- 5. Using the recursive definitions given in this chapter, show how l e n g t h [ 1 , 2 , 3 ],
+-- drop 3 [1, 2, 3, 4, 5], and init [1, 2, 3] are evaluated.
+
+-- non c'ho voglia
+
+
+-- 6. Without looking at the definitions from the standard prelude, define the
 -- following library functions using recursion:
--- - Decide if all logical values in a list are True:
+-- a. Decide if all logical values in a list are True:
 -- and :: [Bool] -> Bool
--- - Concatenate a list of lists:
+-- b. Concatenate a list of lists:
 -- concat :: [[a]] -> [a]
--- - Produce a list with n identical elements:
+-- c. Produce a list with n identical elements:
 -- replicate :: Int -> a -> [a]
----  Select the nth element of a list:
+-- d. Select the nth element of a list:
 -- (!!) :: [a] -> Int -> a
--- - Decide if a value is an element of a list:
+-- e. Decide if a value is an element of a list:
 -- elem :: Eq a => a -> [a] -> Bool
 -- Note: most of these functions are in fact defined in the prelude using
 -- other library functions, rather than using explicit recursion.
@@ -80,9 +87,6 @@ concat :: [[a]] -> [a]
 concat [] = []
 concat (xs:xss) = xs ++ concat xss
 
--- concat [[1,2,3], [4,5,6], [7,8], ['a','b']] da errore perchè [1,2,3,4,5,6,7,8,'a','b'] non 
--- è di tipo [a]
-
 replicate :: Int -> a -> [a]
 replicate 0 _ = []
 replicate n x = x : replicate (n - 1) x 
@@ -91,7 +95,8 @@ replicate n x = x : replicate (n - 1) x
 (!!) (x:xs) 0 = x
 (!!) (x:xs) p | p >= length xs = head (reverse xs)
               | p < length xs = (!!) xs (p - 1)
-
+	      
+-- ((!!) originale conta da 0)
 -- oppure:
 
 (!!) :: [a] -> Int -> a
@@ -99,13 +104,12 @@ replicate n x = x : replicate (n - 1) x
 (!!) l 0 = (take 1 l) !! 0
 (!!) l n = (!!) (drop 1 l)  (n - 1)
 
-
 elem :: Eq a => a -> [a] -> Bool
 elem _ [] = False
 elem y (x:xs) = (y == x) || elem y xs
 
 
--- 4. Define a recursive function merge :: Ord a ⇒ [a] -> [a] -> [a] that
+-- 7. Define a recursive function merge :: Ord a ⇒ [a] -> [a] -> [a] that
 -- merges two sorted lists to give a single sorted list. For example:
 -- > merge [2, 5, 6] [1, 3, 4]
 -- [1, 2, 3, 4, 5, 6]
@@ -119,19 +123,15 @@ sort (x:xs) = sort less : x : sort more
                     smaller = [y | y <- xs | y <= x]
 	            larger = [y | y <- xs | y > x]
 
-
-
 merge :: [a] -> [a] -> [a]
 merge _ [] = _
 merge [] _ = _
-merge (x:xs) (y:ys) |x <= y =  [x,y] ++ merge xs ys
-
-
+merge (x:xs) (y:ys) | x <= y =  [x,y] ++ merge xs ys
 
 -- Notare che è diverso dal classico algoritmo di merge sort
 
 
--- 5. Using merge, define a recursive function msort :: Ord a ⇒ [a] -> [a]
+-- 8. Using merge, define a recursive function msort :: Ord a ⇒ [a] -> [a]
 -- that implements merge sort, in which the empty list and singleton lists
 -- are already sorted, and any other list is sorted by merging together the
 -- two lists that result from sorting the two halves of the list separately.
@@ -139,6 +139,6 @@ merge (x:xs) (y:ys) |x <= y =  [x,y] ++ merge xs ys
 -- into two halves whose length differs by at most one.
 
 
--- 6. Using the five step process, define the library functions that calculate
+-- 9. Using the five step process, define the library functions that calculate
 -- the sum of a list of numbers, take a given number of elements from the
 -- start of a list, and select the last element of a non-empty list.
