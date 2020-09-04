@@ -15,10 +15,12 @@ grid m n = [(x, y) | x <- [1..m], y <- [1..n]]
 
 -- 3. Using a list comprehension and the function grid above, define a function
 -- square :: Int -> [(Int, Int)] that returns a coordinate square of size n,
--- excluding the diagonal from p0, 0q to pn, nq. For example:
+-- excluding the diagonal from (0, 0) to (n, n). For example:
 -- > square 2
 -- [(0,1),(0,2),(1,0),(1,2),(2,0),(2,1)]
 
+square :: Int -> [(Int, Int)]
+square n = filter (\(x, y) -> not (x == y) ) (grid n n)
 
 
 -- 3. A triple (x, y, z) of positive integers can be termed pythagorean if x^2 +
