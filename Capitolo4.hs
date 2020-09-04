@@ -70,17 +70,20 @@ False ||| b = b
 -- True && True = True
 -- _ && _ = False
 
-(||/) :: Bool -> Bool -> Bool
-(||/) a b = if (a == True || b == True) then True else 
-            if (a == True || b == False) then True else
-            if (a == False || b == True) then True else
-	    False
+(&&/) :: Bool -> Bool -> Bool
+(&&/) a b = if (a == True && b == True) then True 
+	    else False
+            
 
 -- 5. Do the same for the following version, and note the difference in the
 -- number of conditional expressions required:
 -- True ∧ b = b
 -- False ∧ = False
 
+f :: Bool -> Bool -> Bool
+f a b = if (a == True && b == True) then True
+	if (a == True && b == False) then False
+	else False
 
 -- 6. Show how the curried function definition mult x y z = x * y * z can be
 -- understood in terms of lambda expressions.
