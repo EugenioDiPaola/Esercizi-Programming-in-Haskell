@@ -76,8 +76,8 @@ map :: (a -> b) -> [a] -> [b]
 map f [ ] = [ ]
 map f (x : xs) = f x : map f xs
 
--- --La struttura è 
--- foldr (funzione che agisce su uno o due elementi consecutivi della lista e poi li unisce in una lista di due elementi) (elemento neutro) (lista da foldare). 
+-- La struttura è 
+-- foldr (funzione binaria su due elementi della lista) (elemento neutro) (lista da foldare da destra verso sinistra). 
 -- Usando foldr dunque:
 
 map :: (a -> b) -> [a] -> [b]
@@ -92,20 +92,57 @@ filter p (x:xs) = foldr (\x xs -> if (p x) then x:xs else xs) [] (x:xs)
 -- > dec2int [2,3,4,5]
 -- 2345
 
-dec2int :: [a] -> a
-dec2int (x:xs) = foldl (\x xs -> x * 10 + xs) 0 (x:xs)
+-- La funzione foldl parte ad associare gli elementi della lista a coppie tramite una funzione binaria 
+-- associando prima l'elemento neutro con il primo elemento della lista verso destra, 
+-- foldr fa la stessa cosa però partendo dall'ultimo elemento e verso destra.
 
--- 5. Without looking at the definitions from the standard prelude, define the
+dec2int :: [a] -> a
+dec2int (x:xs) = foldl (\x1 x2 -> x1 * 10 + x2) 0 (x:xs)
+
+
+-- 5. Explain why the following definition is invalid:
+-- sumsqreven = compose [sum, map (^2), filter even]
+
+-- Perché i domini e le immagini di quelle tre funzioni son otali per cui non è possibile comporre in quell'ordine
+-- dalla definizione nello standard prelude di compose si ha che
+-- [sum, map (^2), filter even] è uguale equivalente a foldr (.) id [sum, map (^2), filter even], che restituisce
+-- filter even . map (^2) . sum, l'immagine di sum è Int mentre il dominio di map (^2) è [Int], quindi non posso comporre
+-- filter even e map in quell'ordine. Sarebbe ammesso ad esempio compose [filter even, map (^2), sum].
+
+
+-- 6. Without looking at the definitions from the standard prelude, define the
 -- higher-order library function curry that converts a function on pairs into
 -- a curried function, and, conversely, the function uncurry that converts a 
 -- curried function with two arguments into a function on pairs.
 -- Hint: first write down the types of the two functions.
 
+curry :: ((a, b) -> c) -> (a -> (b -> c))
+curry f = \x y -> f(x, y)
 
--- 6. A higher-order function unfold that encapsulates a simple pattern of recursion 
+-- oppure:
+curry :: ((a, b) -> c) -> (a -> (b -> c))
+curry f = \x -> \y -> f(x, y)
+
+curry :: ((a, b) -> c) -> (a -> (b -> c))
+(curry f) x y = f(x, y)
+
+curry :: ((a, b) -> c) -> (a -> (b -> c))
+((curry f) x) y = f(x, y)
+
+uncurry :: (a -> (b -> c)) -> ((a, b) -> c)
+
+-- oppure:
+uncurry :: (a -> (b -> c)) -> ((a, b) -> c)
+uncurry f = \(x, y) -> f x y
+
+uncurry :: (a -> (b -> c)) -> ((a, b) -> c)
+(uncurry f) (x, y) = f x y 
+
+
+-- 7. A higher-order function unfold that encapsulates a simple pattern of recursion 
 -- for producing a list can be defined as follows:
 -- unfold p h t x | p x = [ ]
---                | otherwise = h x : unfold p h t ( t x )
+--                | otherwise = h x : unfold p h t (t x)
 -- That is, the function unfold p h t produces the empty list if the predicate p
 -- is true of the argument value, and otherwise produces a non-empty list by
 -- applying the function h to this value to give the head, and the function t
@@ -113,7 +150,9 @@ dec2int (x:xs) = foldl (\x xs -> x * 10 + xs) 0 (x:xs)
 -- to produce the tail of the list. For example, the function int2bin can be
 -- rewritten more compactly using unfold as follows:
 -- int2bin = unfold (== 0) (‘mod‘ 2) (‘div‘ 2)
--- Redefine the functions chop8, m a p f and iterate f using unfold.
+-- Redefine the functions chop8, map f and iterate f using unfold.
+
+chop8 =  unfold p (take 8 xs) () xs
 
 
 -- 7. Modify the binary string transmitter example to detect simple transmission
@@ -195,15 +234,15 @@ sumsqreven = compose [sum, map (^2), filter even]
 -- with two arguments into a function on pairs.
 -- Hint: first write down the types of the two functions.
 
-curry :: ((a,b) -> c) -> (a -> (b -> c))
-curry f = \x y -> f(x,y)
-curry f = \x -> \y -> f(x,y)
-(curry f) x y = f(x,y)
-((curry f) x) y = f(x,y)
+curry :: ((a, b) -> c) -> (a -> (b -> c))
+curry f = \x y -> f(x, y)
+curry f = \x -> \y -> f(x, y)
+(curry f) x y = f(x, y)
+((curry f) x) y = f(x, y)
 
 uncurry :: (a -> (b -> c)) -> ((a,b) -> c)
-uncurry f = \(x,y) -> f x y
-(uncurry f) (x,y) = f x y 
+uncurry f = \(x, y) -> f x y
+(uncurry f) (x, y) = f x y 
 
 -- 7. A higher-order function unfold that encapsulates a simple pattern of
 -- recursion for producing a list can be defined as follows:
