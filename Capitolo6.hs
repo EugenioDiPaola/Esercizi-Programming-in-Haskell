@@ -1,6 +1,8 @@
-1. Define the exponentiation operator ^ for non-negative integers using the
-same pattern of recursion as the multiplication operator *, and show
-how 2 ^ 3 is evaluated using your definition.
+-- CH.6 RECURSIVE FUNCTIONS
+
+-- 1. Define the exponentiation operator ^ for non-negative integers using the
+-- same pattern of recursion as the multiplication operator *, and show
+-- how 2 ^ 3 is evaluated using your definition.
 
 (*) :: Int → Int → Int
 m * 0 = 0
@@ -10,35 +12,37 @@ m * (n + 1) = m + (m * n)
 m ^ 0 = 1
 m ^ (n + 1) = m * (m ^ n)
 
-ghci non mi compila entrambe, mi da come errore 
-error: Parse error in pattern: n + 1.
-però la risposta al quesito dovrebbe essere corretta.
+-- ghci non mi compila entrambe, mi da come errore 
+-- error: Parse error in pattern: n + 1.
+-- però la risposta al quesito dovrebbe essere corretta.
 
-in alternativa, sempre ricorsivamente:
+-- in alternativa, sempre ricorsivamente:
+
 (^) :: Int -> Int -> Int
 (^) m 0 = m ^ 0 = 1
 (^) m ^ n = m * (^) m n - 1
 
 
-2. Using the definitions given in this chapter, show how length [1, 2, 3],
+-- 2. Using the definitions given in this chapter, show how length [1, 2, 3],
+
 drop 3 [1, 2, 3, 4, 5], and init [1, 2, 3] are evaluated.
 
-non c'ho voglia, dai, che palle
+-- non c'ho voglia, dai, che palle
 
-3. Without looking at the definitions from the standard prelude, define the
-following library functions using recursion:
-- Decide if all logical values in a list are True:
-and :: [Bool] -> Bool
-- Concatenate a list of lists:
-concat :: [[a]] -> [a]
-- Produce a list with n identical elements:
-replicate :: Int -> a -> [a]
-- Select the nth element of a list:
-(!!) :: [a] -> Int -> a
-- Decide if a value is an element of a list:
-elem :: Eq a => a -> [a] -> Bool
-Note: most of these functions are in fact defined in the prelude using
-other library functions, rather than using explicit recursion.
+-- 3. Without looking at the definitions from the standard prelude, define the
+-- following library functions using recursion:
+-- - Decide if all logical values in a list are True:
+-- and :: [Bool] -> Bool
+-- - Concatenate a list of lists:
+-- concat :: [[a]] -> [a]
+-- - Produce a list with n identical elements:
+-- replicate :: Int -> a -> [a]
+---  Select the nth element of a list:
+-- (!!) :: [a] -> Int -> a
+-- - Decide if a value is an element of a list:
+-- elem :: Eq a => a -> [a] -> Bool
+-- Note: most of these functions are in fact defined in the prelude using
+-- other library functions, rather than using explicit recursion.
 
 and :: [Bool] -> Bool
 and [] = True
@@ -48,8 +52,8 @@ concat :: [[a]] -> [a]
 concat [] = []
 concat (xs:xss) = xs ++ concat xss
 
-concat [[1,2,3],[4,5,6],[7,8],['a','b']] da errore perchè [1,2,3,4,5,6,7,8,'a','b'] non 
-è di tipo [a]
+-- concat [[1,2,3], [4,5,6], [7,8], ['a','b']] da errore perchè [1,2,3,4,5,6,7,8,'a','b'] non 
+-- è di tipo [a]
 
 replicate :: Int -> a -> [a]
 replicate 0 _ = []
@@ -60,7 +64,7 @@ replicate n x = x : replicate (n - 1) x
 (!!) (x:xs) p | p >= length xs = head (reverse xs)
               | p < length xs = (!!) xs (p - 1)
 
-oppure
+-- oppure:
 
 (!!) :: [a] -> Int -> a
 (!!) [] n = 0
@@ -73,12 +77,12 @@ elem _ [] = False
 elem y (x:xs) = (y == x) || elem y xs
 
 
-4. Define a recursive function merge :: Ord a ⇒ [a] -> [a] -> [a] that
-merges two sorted lists to give a single sorted list. For example:
-> merge [2, 5, 6] [1, 3, 4]
-[1, 2, 3, 4, 5, 6]
-Note: your definition should not use other functions on sorted lists such
-as insert or isort, but should be defined using explicit recursion.
+-- 4. Define a recursive function merge :: Ord a ⇒ [a] -> [a] -> [a] that
+-- merges two sorted lists to give a single sorted list. For example:
+-- > merge [2, 5, 6] [1, 3, 4]
+-- [1, 2, 3, 4, 5, 6]
+-- Note: your definition should not use other functions on sorted lists such
+-- as insert or isort, but should be defined using explicit recursion.
 
 sort :: Ord a => [a] -> [a]
 sort [] = []
@@ -96,17 +100,17 @@ merge (x:xs) (y:ys) |x <= y =  [x,y] ++ merge xs ys
 
 
 
-Notare che è diverso dal classico algoritmo di merge sort
+-- Notare che è diverso dal classico algoritmo di merge sort
 
 
-5. Using merge, define a recursive function msort :: Ord a ⇒ [a] -> [a]
-that implements merge sort, in which the empty list and singleton lists
-are already sorted, and any other list is sorted by merging together the
-two lists that result from sorting the two halves of the list separately.
-Hint: first define a function halve :: [a ] → [([a ], [a ])] that splits a list
-into two halves whose length differs by at most one.
+-- 5. Using merge, define a recursive function msort :: Ord a ⇒ [a] -> [a]
+-- that implements merge sort, in which the empty list and singleton lists
+-- are already sorted, and any other list is sorted by merging together the
+-- two lists that result from sorting the two halves of the list separately.
+-- Hint: first define a function halve :: [a ] → [([a ], [a ])] that splits a list
+-- into two halves whose length differs by at most one.
 
 
-6. Using the five step process, define the library functions that calculate
-the sum of a list of numbers, take a given number of elements from the
-start of a list, and select the last element of a non-empty list.
+-- 6. Using the five step process, define the library functions that calculate
+-- the sum of a list of numbers, take a given number of elements from the
+-- start of a list, and select the last element of a non-empty list.
