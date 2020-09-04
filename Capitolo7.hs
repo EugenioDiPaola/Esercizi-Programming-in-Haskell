@@ -1,18 +1,24 @@
 -- 1. Show how the list comprehension [f x | x <- xs, p x ] can be re-expressed
 -- using the higher-order functions map and filter.
 
-[f x | x <- xs , p x] = map (f)(filter p xs)
+-- [f x | x <- xs , p x] può essere scritta come un funzione g siffatta:
 
--- 2. Without looking at the definitions from the standard prelude, define the
--- higher-order functions all, any, takeWhile and dropWhile.
+g f p = map f . filter p
 
-any :: (a -> Bool) -> [a] -> Bool
-any p [] = False
-any p (x:xs) = (p x) || (any p xs)
 
-any :: (a -> Bool) -> [a] -> Bool
-any p xs = foldr ((||).p) False xs
+-- 2. Without looking at the definitions from the standard prelude, define the following higher-order library functions on lists.
+-- a. Decide if all elements of a list satisfy a predicate:
+-- all :: (a -> Bool) - > [Bool] - > Bool
+-- b. Decide if any element of a list satisfies a predicate:
+-- any :: (a -> Bool) - > [Bool] - > Bool
+-- c. Select elements from a list while they satisfy a predicate:
+-- takeWhile :: (a -> Bool) - > [a] -> [a]
+-- d. Remove elements from a list while they satisfy a predicate:
+-- dropWhile :: (a -> Bool) - > [a] -> [a]
+-- Note: in the prelude the first two of these functions are generic functions
+-- rather than being specific to the type of lists.
 
+-- a.
 all :: (a -> Bool) -> [a] -> Bool
 all p [] = True
 all p (x:xs) = (p x) && (all p xs)
@@ -20,6 +26,15 @@ all p (x:xs) = (p x) && (all p xs)
 all :: (a -> Bool) -> [a] -> Bool
 all p xs = foldr ((&&).p) True xs
 
+-- b.
+any :: (a -> Bool) -> [a] -> Bool
+any p [] = False
+any p (x:xs) = (p x) || (any p xs)
+
+any :: (a -> Bool) -> [a] -> Bool
+any p xs = foldr ((||).p) False xs
+
+-- c.
 takeWhile :: 
 
 foldr :: (a -> b -> b) -> b -> [a] -> b
@@ -30,7 +45,7 @@ foldl :: (a -> b -> a) -> a -> [b] -> a
 foldl f v [] = v
 foldl f v (x:xs) = foldl f (f v x) xs
 
-3. Redefine the functions map f and filter p using foldr.
+-- 3. Redefine the functions map f and filter p using foldr.
 
 map :: (a -> b) -> [a] -> [b]
 map f [ ] = [ ]
