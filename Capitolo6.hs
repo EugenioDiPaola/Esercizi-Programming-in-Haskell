@@ -1,26 +1,44 @@
+
 -- CH.6 RECURSIVE FUNCTIONS - Programming in Haskell - Graham Hutton - II Edizione (2016)
+
+-- Compilatore: ghci
 
 -- 1. How does the recursive version of the factorial function behave if applied to a
 -- negative argument, such as (-1)? Modify the definition to prohibit negative
 -- arguments by adding a guard to the recursive case.
 
 factorial :: Int -> Int
-factorial x = | x = 0 then 0
-	      | x < 
+factorial x | x == 0 = 1
+            | x < 0 = 0
+            | x > 0 = x * factorial (x - 1)
 	      
 
+-- 2. Define a recursive function sumdown :: Int -> Int that returns the sum
+-- of the non-negative integers from a given value down to zero. For example,
+-- sumdown 3 should return the result 3 + 2 + 1 + 0 = 6.
 
--- 1. Define the exponentiation operator ^ for non-negative integers using the
+sumdown :: Int -> Int
+sumdown x | x < 0 = 0
+          | x == 0 = 0
+          | x > 0 = x + sumdown (x - 1)
+	  
+
+-- 3. Define the exponentiation operator ^ for non-negative integers using the
 -- same pattern of recursion as the multiplication operator *, and show
 -- how 2 ^ 3 is evaluated using your definition.
 
-(*) :: Int → Int → Int
-m * 0 = 0
-m * (n + 1) = m + (m * n)
+-- * in forma ricorsiva è:
+
+(*) :: Int -> Int -> Int
+(*) m n | m == 0 || n == 0 = 0 
+        | m < 0
+(*) m n = (*) m (n - 1)
+
+-- dunque: 
 
 (^) :: Int -> Int -> Int
-m ^ 0 = 1
-m ^ (n + 1) = m * (m ^ n)
+(^) m ^ 0 = 1
+(^) m ^ (n + 1) = m * (m ^ n)
 
 -- ghci non mi compila entrambe, mi da come errore 
 -- error: Parse error in pattern: n + 1.
