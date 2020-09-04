@@ -72,9 +72,9 @@ map f (x : xs) = f x : map f xs
 map :: (a -> b) -> [a] -> [b]
 map f xs = foldr (f.(:).f) (:[]) xs
 
--- 4. Using f o l d l, define a function d e c 2 i n t : : [ I n t ] - > I n t that converts a
+-- 4. Using foldl, define a function dec2int :: [Int] -> Int that converts a
 -- decimal number into an integer. For example:
--- > d e c 2 i n t [ 2 , 3 , 4 , 5 ]
+-- > dec2int [2,3,4,5]
 -- 2345
 
 -- 5. Without looking at the definitions from the standard prelude, define the
@@ -83,17 +83,17 @@ map f xs = foldr (f.(:).f) (:[]) xs
 -- Hint: first write down the types of the two functions.
 
 
--- 6. A higher-order function u n f o l d that encapsulates a simple pattern of recursion for producing a list can be defined as follows:
--- unfoldphtx | p x = [ ]
--- | otherwise = h x : u n f o l d p h t ( t x )
+-- 6. A higher-order function unfold that encapsulates a simple pattern of recursion for producing a list can be defined as follows:
+-- unfold p h t x | p x = [ ]
+--                | otherwise = h x : unfold p h t ( t x )
 -- That is, the function u n f o l d p h t produces the empty list if the predicate p
 -- is true of the argument value, and otherwise produces a non-empty list by
 -- applying the function h to this value to give the head, and the function t
 -- to generate another argument that is recursively processed in the same way
--- to produce the tail of the list. For example, the function i n t 2 b i n can be
+-- to produce the tail of the list. For example, the function int2bin can be
 -- rewritten more compactly using u n f o l d as follows:
--- i n t 2 b i n = u n f o l d ( = = 0 ) ( ‘ m o d ‘ 2 ) ( ‘ d i v ‘ 2 )
--- Redefine the functions c h o p 8, m a p f and i t e r a t e f using u n f o l d.
+-- int2bin = unfold (== 0) (‘mod‘ 2) (‘div‘ 2)
+-- Redefine the functions chop8, m a p f and iterate f using unfold.
 
 
 -- 7. Modify the binary string transmitter example to detect simple transmission
@@ -105,7 +105,7 @@ map f xs = foldr (f.(:).f) (:[]) xs
 -- is the case, and a parity error being reported otherwise.
 -- Hint: the library function error :: String -> a displays the given string
 -- as an error message and terminates the program; the polymorphic result type
--- ensures that e r r o r can be used in any context.
+-- ensures that error can be used in any context.
 
 
 -- 8. Test your new string transmitter program from the previous exercise using a
