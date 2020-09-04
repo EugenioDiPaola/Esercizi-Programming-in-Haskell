@@ -1,4 +1,3 @@
-
 -- CH.6 RECURSIVE FUNCTIONS - Programming in Haskell - Graham Hutton - II Edizione (2016)
 
 -- Interpreter: GHCi
