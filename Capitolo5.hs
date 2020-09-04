@@ -54,8 +54,23 @@ pyths n = [(x, y, z) | x <- [1..n], y <- [1..n], z <- [1..n], x^2 + y^2 == z^2]
 factors :: Int -> [Int]
 factors n = [x | x <- [1..n], (mod) n x == 0]
 
+-- A positive integer is perfect if it equals the sum of all of its factors, excluding
+-- the number itself. Using a list comprehension and the function factors, define
+-- a function perfects :: Int -> [Int] that returns the list of all perfect
+-- numbers up to a given limit. For example:
+-- > perfects 500
+-- [6 , 28 , 496]
+
 perfects :: Int -> [Int]
 perfects n = [x | x <- [1..n], (sum (factors x) - x)  == x]
+
+
+-- 7. Show how the list comprehension [(x, y) | x <- [1, 2] , y <- [3, 4]] with
+-- two generators can be re-expressed using two comprehensions with single generators. 
+-- Hint: nest one comprehension within the other and make use of the
+-- library function concat :: [[a]] -> [a].
+
+
 
 
 -- 5. Show how the single comprehension [(x, y) | x <- [1, 2, 3], y <- [4, 5, 6]]
