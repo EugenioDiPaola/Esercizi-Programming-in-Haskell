@@ -1,10 +1,10 @@
-1. Show how the list comprehension [f x | x <- xs, p x ] can be re-expressed
-using the higher-order functions map and filter.
+-- 1. Show how the list comprehension [f x | x <- xs, p x ] can be re-expressed
+-- using the higher-order functions map and filter.
 
 [f x | x <- xs , p x] = map (f)(filter p xs)
 
-2. Without looking at the definitions from the standard prelude, define the
-higher-order functions all, any, takeWhile and dropWhile.
+-- 2. Without looking at the definitions from the standard prelude, define the
+-- higher-order functions all, any, takeWhile and dropWhile.
 
 any :: (a -> Bool) -> [a] -> Bool
 any p [] = False
@@ -43,9 +43,9 @@ map f (x : xs) = f x : map f xs
 map :: (a -> b) -> [a] -> [b]
 map f xs = foldr (f.(:).f) (:[]) xs
 
-4. Using foldl, define a function dec2int :: [Int] -> Int that converts a
-decimal number into an integer. For example:
-> dec2int [2, 3, 4, 5]
+-- 4. Using foldl, define a function dec2int :: [Int] -> Int that converts a
+-- decimal number into an integer. For example:
+-- > dec2int [2, 3, 4, 5]
 
 dec2int :: [Int] -> Int
 dec2int xs = foldl (+.*10) 0 (zip xs (reverse [10^i | i <- [0..length xs]]))
@@ -69,7 +69,6 @@ curry f = \x y -> f(x,y)
 curry f = \x -> \y -> f(x,y)
 (curry f) x y = f(x,y)
 ((curry f) x) y = f(x,y)
-
 
 uncurry :: (a -> (b -> c)) -> ((a,b) -> c)
 uncurry f = \(x,y) -> f x y
