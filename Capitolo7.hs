@@ -75,13 +75,16 @@ map :: (a -> b) -> [a] -> [b]
 map f [ ] = [ ]
 map f (x : xs) = f x : map f xs
 
--- Usando foldr:
+-- --La struttura è 
+-- foldr (funzione che agisce su uno o due elementi consecutivi della lista e poi li unisce in una lista di due elementi) (elemento neutro) (lista da foldare). 
+-- Usando foldr dunque:
 
 map :: (a -> b) -> [a] -> [b]
-map f xs = foldr (f.(:).f) (:[]) xs
+map f (x:xs) = foldr (\x xs -> (f x) : xs) [] (x:xs)
 
 filter :: (a -> Bool) -> [a] -> [a]
-filter 
+filter p (x:xs) = foldr (\x xs -> if (p x) then x:xs else xs) [] (x:xs)
+
 
 -- 4. Using foldl, define a function dec2int :: [Int] -> Int that converts a
 -- decimal number into an integer. For example:
