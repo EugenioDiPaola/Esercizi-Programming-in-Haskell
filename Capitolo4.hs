@@ -3,17 +3,17 @@
 -- > halve [1, 2, 3, 4, 5, 6]
 -- ([1, 2, 3], [4, 5, 6])
 
-firstN :: [a] -> Int -> [a]
-firstN _ 0 = []
-firstN (x:xs) n = x : (firstN xs (n-1))
+primiN :: [a] -> Int -> [a]
+primiN _ 0 = []
+primiN (x:xs) n = x : (primiN xs (n-1))
 
-lastN :: [a] -> Int -> [a]
-lastN _ 0 = []
-lastN xs n = reverse (take n (reverse xs))
+ultimiN :: [a] -> Int -> [a]
+ultimiN _ 0 = []
+ultimiN xs n = reverse (take n (reverse xs))
 
 halve1 :: [a] -> ([a], [a])
-halve1 xs |even (length xs) = (firstN xs n, lastN xs n)
-	  |odd (length xs) = (firstN xs (n + 1), lastN xs (n + 1))
+halve1 xs |even (length xs) = (primiN xs n, ultimiN xs n)
+	  |odd (length xs) = (primiN xs (n + 1), ultimiN xs (n + 1))
           	where n = div (length xs) 2
 	   
 -- oppure:
