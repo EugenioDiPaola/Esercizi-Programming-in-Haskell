@@ -13,7 +13,7 @@ lastN xs n = reverse (take n (reverse xs))
 
 halve1 :: [a] -> ([a], [a])
 halve1 xs |even (length xs) = (firstN xs n, lastN xs n)
-	  |odd (length xs) = (firstN xs (n+1), lastN xs (n+1))
+	  |odd (length xs) = (firstN xs (n + 1), lastN xs (n + 1))
           	where n = div (length xs) 2
 	   
 -- oppure:
@@ -32,17 +32,16 @@ halve2 xs |even (length xs) = (take (div (length xs) 2) xs, drop (div (length xs
 -- (c) pattern matching.
 -- Hint: make use of the library function null.
 
-safetail1 :: [a] -> [a]
-safetail1 [] = []
-safetail1 (x:xs) = xs
+safetailA :: [a] -> [a]
+safetailA xs = if (null xs) then [] else tail xs
 
-safetail2 :: [a] -> [a]
-safetail2 xs |null xs = []
+safetailB :: [a] -> [a]
+safetailB xs |null xs = []
              |not (null xs) = tail xs
 
-safetail3 :: [a] -> [a]
-safetail3 xs = if (null xs) then [] else tail xs
-
+safetailC :: [a] -> [a]
+safetailC [] = []
+safetailC (_:xs) = xs
 
 -- 3. In a similar way to ∧, show how the logical disjunction operator ∨ can
 -- be defined in four different ways using pattern matching.
