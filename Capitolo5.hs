@@ -3,15 +3,22 @@
 
 sum [x * x | x <- [1..100]]
 
+-- 2. Suppose that a coordinate grid of size m x n is given by the list of all pairs
+-- (x, y) of integers such that 0 <= x <= m and 0 <= y >= n. Using a list comprehension, define a function g r i d : : I n t - > I n t - > [ ( I n t , I n t ) ] that returns a
+-- coordinate grid of a given size. For example:
+-- > grid 1 2
+-- [(0,0),(0,1),(0,2),(1,0),(1,1),(1,2)]
 
--- 2. In a similar way to the function length, show how the library function
--- replicate :: Int -> a -> [a] that produces a list of identical elements can
--- be defined using a list comprehension. For example:
--- > replicate 3 True
--- [True, True, True]
+grid :: Int -> Int -> [(Int, Int)]
+grid m n = [(x, y) | x <- [1..m], y <- [1..n]]
 
-replicate :: Int -> a -> [a]
-replicate n x = [x | _ <- [1..n]]
+
+-- 3. Using a list comprehension and the function grid above, define a function
+-- square :: Int -> [(Int, Int)] that returns a coordinate square of size n,
+-- excluding the diagonal from p0, 0q to pn, nq. For example:
+-- > square 2
+-- [(0,1),(0,2),(1,0),(1,2),(2,0),(2,1)]
+
 
 
 -- 3. A triple (x, y, z) of positive integers can be termed pythagorean if x^2 +
@@ -21,8 +28,18 @@ replicate n x = [x | _ <- [1..n]]
 -- > pyths 10
 -- [(3, 4, 5), (4, 3, 5), (6, 8, 10), (8, 6, 10)]
 
-pyths :: Int -> [(Int,Int,Int)]
-pyths n = [(x,y,z) | x <- [1..n], y <- [1..n], z <- [1..n], x^2 + y^2 == z^2]
+
+
+-- 4. In a similar way to the function length, show how the library function
+-- replicate :: Int -> a -> [a] that produces a list of identical elements can
+-- be defined using a list comprehension. For example:
+-- > replicate 3 True
+-- [True, True, True]
+
+replicate :: Int -> a -> [a]
+replicate n x = [x | _ <- [1..n]]
+pyths :: Int -> [(Int, Int, Int)]
+pyths n = [(x, y, z) | x <- [1..n], y <- [1..n], z <- [1..n], x^2 + y^2 == z^2]
 
 
 -- 4. A positive integer is perfect if it equals the sum of its factors, excluding
@@ -43,6 +60,8 @@ perfects n = [x | x <- [1..n], (sum (factors x) - x)  == x]
 -- with two generators can be re-expressed using two comprehensions with
 -- single generators. Hint: make use of the library function concat and nest
 -- one comprehension within the other.
+
+c = concat [[(x, y) | ]]
 
 
 -- 6. Redefine the function positions using the function find.
