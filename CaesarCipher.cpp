@@ -1,6 +1,3 @@
-
-
-
 #include <iostream>
 #include <vector>
 #include <map>
@@ -9,7 +6,8 @@ using namespace std;
 
 bool isCharLowercase (char CHAR){
 	
-	vector<char> lowercase_english_alphabet = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'}; 
+	vector<char> lowercase_english_alphabet = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u',
+						   'v', 'w', 'x', 'y', 'z'}; 
 	bool result_bool = false;
 	for(auto & x : lowercase_english_alphabet){if(x == CHAR) result_bool = true;}
 	
@@ -19,7 +17,8 @@ bool isCharLowercase (char CHAR){
 
 bool isCharUppercase (char CHAR){
 	
-	vector<char> uppercase_english_alphabet = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'}; 
+	vector<char> uppercase_english_alphabet = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 
+						   'V', 'W', 'X', 'Y', 'Z'}; 
 	bool result_bool = false;
 	for(auto & x : uppercase_english_alphabet){if(x == CHAR) result_bool = true;}
 	
@@ -72,7 +71,7 @@ char caesarDecypherChar (char CHAR, int D){
     if(isCharLowercase(CHAR) && convertCharToInt(CHAR) - (D % 26) >= 0){result_char = convertIntToChar(convertCharToInt(CHAR) - (D % 26));}
     if(isCharLowercase(CHAR) && convertCharToInt(CHAR) - (D % 26) < 0){result_char = convertIntToChar(26 - (abs (convertCharToInt(CHAR) - (D % 26))));}
     if(isCharUppercase(CHAR) && convertCharToInt(CHAR) - (D % 26) >= 26){result_char = convertIntToChar(convertCharToInt(CHAR) - (D % 26));}
-    if(isCharUppercase(CHAR) && convertCharToInt(CHAR) - (D % 26) < 26){ cout << "entered"<< endl; result_char = convertIntToChar (52 - (26 - abs (convertCharToInt(CHAR) - (D % 26))));}
+    if(isCharUppercase(CHAR) && convertCharToInt(CHAR) - (D % 26) < 26){ cout << "entered" << endl; result_char = convertIntToChar (52 - (26 - abs (convertCharToInt(CHAR) - (D % 26))));}
     
     return result_char;
 }
@@ -85,9 +84,9 @@ string & caesarDecypherString (string & STRING, int D){
 int main(){
         
     int d = 21;//20
-    string nmdcdnv_string ("NelMezzoDelCamminDiNostraVita");
+    string test_string ("NelMezzoDelCamminDiNostraVita");
     cout << "caesarCypherString('NelMezzoDelCamminDiNostraVita', d)" << endl;
-    string s2 = caesarCypherString(nmdcdnv_string, d);
+    string s2 = caesarCypherString(test_string, d);
     cout << s2 << endl;
     
     string s3 = caesarDecypherString(s2, d);
