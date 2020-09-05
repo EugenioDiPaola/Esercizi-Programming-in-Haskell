@@ -239,10 +239,15 @@ canaleRumoroso :: [Bit] -> [Bit]
 -- > altMap (+10) (+100) [0, 1, 2, 3, 4]
 -- [10, 101, 12, 103, 14]
 
-altMap :: (a -> b) -> (a -> b) -> [a] -> [b]
-altMap f1 f2 []       = []
-altMap f1 f2 (x:[])   = f1 x : []
-altMap f1 f2 (x:y:xs) = f1 x : f2 y : altMap f1 f2 xs
+altMapA :: (a -> b) -> (a -> b) -> [a] -> [b]
+altMapA f1 f2 xs = f1 (head xs) : f2 (head (tail xs)) : altMapA f1 f2 (tail (tail xs))
+
+-- oppure con il pattern matching:
+
+altMapB :: (a -> b) -> (a -> b) -> [a] -> [b]
+altMapB f1 f2 []       = []
+altMapB f1 f2 (x:[])   = f1 x : []
+altMapB f1 f2 (x:y:xs) = f1 x : f2 y : altMapB f1 f2 xs
 
 
 -- 10. Using altMap, define a function luhn :: [Int] -> Bool that implements
