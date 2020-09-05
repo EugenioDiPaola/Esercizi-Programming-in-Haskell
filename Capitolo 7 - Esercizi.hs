@@ -186,30 +186,36 @@ type Bit = Int
 
 bin2int :: [Bit] -> Int
 bin2intbits = sum [w * b | (w, b) <- zip weights bits]
-where weights = iterate (*2) 1
+              where weights = iterate (*2) 1
 
 bin2int :: [Bit] -> Int
 bin2int = foldr (\x y -> x + 2 * y) 0
 
 int2bin :: Int -> [Bit]
 int2bin 0 = []
-int2bin n = n ‘mod‘ 2 : int2bin (n ‘div‘ 2)
+int2bin n = n 'mod' 2 : int2bin (n 'div' 2)
 
 make8 :: [Bit] -> [Bit]
 make8 bits = take8 (bits ++ repeat 0)
 
-aggiungiParity :: [Bit] -> [Bit]
-aggiungiParity bits |odd sum bits = bits ++ 1
+aggiungiParita :: [Bit] -> [Bit]
+aggiungiParita bits |odd sum bits = bits ++ 1
                     |even sum bits = bits ++ 0
 
 encode :: String -> [Bit]
-encode = concat . map (aggiungiParity . make8 . int2bin . ord)
+encode = concat . map (aggiungiParita . make8 . int2bin . ord)
 
-chop8 :: [Bit] -> [[Bit]] chop8 [] = []
-chop8bits = take8bits : chop8 (drop 8 bits)
+chop9 :: [Bit] -> [[Bit]] chop9 [] = []
+chop9 bits = take 9 bits : chop9 (drop 9 bits)
+
+controllaParita :: [Bit] -> [Bit]
+controllaParita bits | mod (sum (take 8 bits)) 2 == bits (!!) 8 = bits
+                       otherwise error 'parity error'	 
 
 decode :: [Bit] -> String
-decode = map(chr . bin2int) . chop8
+decode = map(chr . bin2int) . controllaParita . chop9
+
+canaleRumoroso :: 
 
 transmit :: String -> String
 transmit = decode . channel . encode
