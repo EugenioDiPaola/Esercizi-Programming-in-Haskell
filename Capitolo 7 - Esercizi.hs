@@ -1,4 +1,5 @@
 -- CHAPTER 7 - HIGHER-ORDER FUNCTIONS - Programming with Haskell - Graham Hutton - Edizione II (2016) 
+
 -- Per comodità mi riporto qua le definizioni di foldr e foldl come definite nello standard prelude:
 
 foldr :: (a -> b -> b) -> b -> [a] -> b
@@ -94,7 +95,7 @@ filter p (x:xs) = foldr (\x xs -> if (p x) then x:xs else xs) [] (x:xs)
 
 -- La funzione foldl parte ad associare gli elementi della lista a coppie tramite una funzione binaria 
 -- associando prima l'elemento neutro con il primo elemento della lista verso destra, 
--- foldr fa la stessa cosa però partendo dall'ultimo elemento e verso destra.
+-- foldr fa la stessa cosa però partendo dall'ultimo elemento e verso sinistra.
 
 dec2int :: [a] -> a
 dec2int (x:xs) = foldl (\x1 x2 -> x1 * 10 + x2) 0 (x:xs)
@@ -178,6 +179,41 @@ iterate f xs = unfold (\l -> (length l == 0)) (head) (map f) xs
 -- Hint: the library function error :: String -> a displays the given string
 -- as an error message and terminates the program; the polymorphic result type
 -- ensures that error can be used in any context.
+
+importData.Char
+
+type Bit = Int
+
+bin2int :: [Bit] -> Int
+bin2intbits = sum [w * b | (w, b) <- zip weights bits]
+where weights = iterate (*2) 1
+
+bin2int :: [Bit] -> Int
+bin2int = foldr (\x y -> x + 2 * y) 0
+
+int2bin :: Int -> [Bit]
+int2bin 0 = []
+int2bin n = n ‘mod‘ 2 : int2bin (n ‘div‘ 2)
+
+make8 :: [Bit] -> [Bit]
+make8 bits = take8 (bits ++ repeat 0)
+
+encode :: String -> [Bit]
+encode = concat . map (make8 . int2bin . ord)
+
+chop8::[Bit] -> [[Bit]] chop8 [] = []
+chop8bits = take8bits : chop8 (drop 8 bits)
+
+decode :: [Bit] -> String
+decode = map(chr . bin2int) . chop8
+
+transmit :: String -> String
+transmit = decode . channel . encode
+channel :: [Bit] -> [Bit]
+channel = id
+
+> transmit "higher-order functions are easy"
+"higher-orderfunction sare easy"
 
 
 -- 8. Test your new string transmitter program from the previous exercise using a
