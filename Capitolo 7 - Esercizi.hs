@@ -1,6 +1,6 @@
--- CHAPTER 7 - HIGHER-ORDER FUNCTIONS - Programming with Haskell - Graham Hutton - Edizione II (2016) 
+-- CAPITOLO 7 - HIGHER-ORDER FUNCTIONS - Programming with Haskell - Graham Hutton - Edizione II (2016) 
 
--- Per comodità mi riporto qua le definizioni di foldr e foldl come definite nello standard prelude:
+-- Per comodità mi riporto qua le definizioni di foldr e foldl come definite nello standard Prelude:
 
 foldr :: (a -> b -> b) -> b -> [a] -> b
 foldr f v [] = v
