@@ -1,5 +1,6 @@
--- 1. In a similar manner to the function a d d, define a recursive multiplication function m u l t : : N a t - > N a t - > N a t for the recursive type of natural numbers:
--- Hint: make use of a d d in your definition.
+-- 1. In a similar manner to the function a d d, define a recursive multiplication function
+-- mult :: Nat -> Nat -> Nat for the recursive type of natural numbers:
+-- Hint: make use of add in your definition.
 
 -- 2. Although not included in appendix B, the standard prelude defines
 -- data Ordering = LT | EQ | GT
