@@ -1,16 +1,27 @@
--- 1. In a similar manner to the function a d d, define a recursive multiplication function
+-- 1. In a similar manner to the function add, define a recursive multiplication function
 -- mult :: Nat -> Nat -> Nat for the recursive type of natural numbers:
 -- Hint: make use of add in your definition.
+
+
 
 -- 2. Although not included in appendix B, the standard prelude defines
 -- data Ordering = LT | EQ | GT
 -- together with a function
 -- compare :: Ord a => a -> a -> Ordering
--- that decides if one value in an ordered type is less than (L T), equal to (E Q),
--- or greater than (G T) another value. Using this function, redefine the function
+-- that decides if one value in an ordered type is less than (LT), equal to (EQ),
+-- or greater than (GT) another value. Using this function, redefine the function
 -- occurs :: Ord a => a -> Tree a -> Bool for search trees. Why is this
 -- new definition more efficient than the original version?
 
+occurs :: Ord a => a -> Tree a -> Bool
+occurs x (Leaf y) = x == y
+occurs x (Node l y r)|compare x y == EQ = True
+                     |compare x y == LT = occurs x l
+                     |compare x y == GT = occurs x r
+                     
+-- non mi sembra più efficiente, può sempre capitare che debba fare due compare
+                     
+                     
 -- 3. Consider the following type of binary trees:
 -- data Tree a = Leaf a | Node (Tree a) (Tree a)
 -- Let us say that such a tree is balanced if the number of leaves in the left and
@@ -19,12 +30,12 @@
 -- decides if a binary tree is balanced or not.
 -- Hint: first define a function that returns the number of leaves in a tree.
 
--- 4. Define a function b a l a n c e : : [ a ] - > T r e e a that converts a non-empty
+-- 4. Define a function balance :: [a] -> Tree a that converts a non-empty
 -- list into a balanced tree. Hint: first define a function that splits a list into two
 -- halves whose length differs by at most one.
 
 -- 5. Given the type declaration
--- d a t a E x p r = V a l I n t | A d d E x p r E x p r
+-- data Expr = Val Int | Add Expr Expr
 -- define a higher-order function
 -- folde :: (Int -> a) -> (a -> a -> a) -> Expr -> a
 -- such that folde f g replaces each V a l constructor in an expression by the
