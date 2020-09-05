@@ -180,23 +180,8 @@ iterate f xs = unfold (\l -> (length l == 0)) (head) (map f) xs
 -- as an error message and terminates the program; the polymorphic result type
 -- ensures that error can be used in any context.
 
-importData.Char
 
-type Bit = Int
 
-bin2int :: [Bit] -> Int
-bin2intbits = sum [w * b | (w, b) <- zip weights bits]
-              where weights = iterate (*2) 1
-
-bin2int :: [Bit] -> Int
-bin2int = foldr (\x y -> x + 2 * y) 0
-
-int2bin :: Int -> [Bit]
-int2bin 0 = []
-int2bin n = n 'mod' 2 : int2bin (n 'div' 2)
-
-make8 :: [Bit] -> [Bit]
-make8 bits = take8 (bits ++ repeat 0)
 
 aggiungiParita :: [Bit] -> [Bit]
 aggiungiParita bits |odd sum bits = bits ++ 1
@@ -215,7 +200,8 @@ controllaParita bits | mod (sum (take 8 bits)) 2 == bits (!!) 8 = bits
 decode :: [Bit] -> String
 decode = map(chr . bin2int) . controllaParita . chop9
 
-canaleRumoroso :: 
+canaleRumoroso :: [Bit] -> [Bit]
+
 
 transmit :: String -> String
 transmit = decode . channel . encode
