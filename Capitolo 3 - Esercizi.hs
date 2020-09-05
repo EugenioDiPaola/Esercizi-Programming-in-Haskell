@@ -1,11 +1,17 @@
 -- CAPITOLO 3 - TYPES AND CLASSES
 
 -- 1. What are the types of the following values?
--- [’a’, ’b’, ’c’]
+-- ['a', 'b', 'c']
 -- (’a’, ’b’, ’c’)
 -- [(False, ’O’),(True, ’1)]
 -- ([False, True],[’0’, ’1’] )
 -- [tail, init, reverse]
+
+:type ['a', 'b', 'c']
+--
+
+
+[tail, init, reverse] :: [[a] -> [a]]
 
 -- 2. Write down definitions that have the following types; it does not matter what
 -- the definitions actually do as long as they are type correct.
@@ -14,6 +20,16 @@
 -- add :: Int -> Int -> Int -> Int
 -- copy :: a -> (a, a)
 -- apply :: (a -> b) -> a -> b
+
+bools = [True, False, False]
+
+nums = [[1,2,3], [4,5], [7,8,9,10]]
+
+add = \x y z -> x + y + z
+
+copy = \x -> (x, x)
+
+apply = \f x -> f x
 
 -- 3. What are the types of the following functions?
 -- secondxs=head(tailxs)
