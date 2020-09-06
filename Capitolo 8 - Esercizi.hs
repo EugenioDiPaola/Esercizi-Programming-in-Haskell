@@ -107,8 +107,8 @@ balanced alberoTest
 data Expr = Val Int | Add Expr Expr
 
 folde :: (Int -> a) -> (a -> a -> a) -> Expr -> a
-folde f g (Val v) =  f v
-folde f g (Add x1 x2) = g (folde f g x1) (folde f g x2)
+folde f1 F2 (Val v) =  f1 v
+folde f1 F2 (Add x1 x2) = f2 (folde f1 f2 x1) (folde f1 f2 x2)
 :}
 
 
@@ -119,12 +119,12 @@ folde f g (Add x1 x2) = g (folde f g x1) (folde f g x2)
 eval :: Expr -> Int
 eval e = folde id (+) e
 
--- non capisco perchè questa verisone non mi funziona:
+-- non capisco perchè questa versione non mi funziona:
 
 --size :: Expr -> Int
 --size e = sum (folde (\x-> [1]) (:) e)
 
--- altrimenti più semplicemente: 
+-- altrimenti, più semplicemente: 
 
 size :: Expr -> Int
 size e = folde (\x -> 1) (+) e
@@ -134,11 +134,29 @@ size (Add (Add (Add (Val 5) (Val 6)) (Add (Val 1) (Val 8))) (Val 1)) == 5
 :}
 
 -- 7. Complete the following instance declarations:
--- instance Eq a = > Eq (Maybe a) where
+-- instance Eq a => Eq (Maybe a) where
 -- ...
 -- instance Eq a => Eq [a] where
 -- ...
 
+data Maybe a = Nothing | Just a
+
+instance Eq a => Eq (Maybe a) where
+    Nothing == Nothing = True
+    Just x1 == Just x2 = (x1 == x2)
+    Nothing == Just x2 = False
+    Just x2 == Nothing = False
+
+-- non c'è bisogno di definire come si comporta Maybe con \= perchè \= è definito in termini di ==.
+
+instance Eq a => Eq [a] where
+    [] == [] = True
+    x:xs == y:ys = x == y && xs == ys
+    _ == _ = False
+
+
 -- 8. Extend the tautology checker to support the use of logical disjunction (_)
 -- and equivalence (ô) in propositions.
+
+
 -- 9. Extend the abstract machine to support the use of multiplication.
