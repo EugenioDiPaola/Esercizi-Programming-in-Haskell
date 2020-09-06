@@ -37,6 +37,8 @@ int10 = nat2int(nat10)
 checkint = [int1, int2, int6, int10]
 checknat = [nat1, nat2, nat3, nat6, nat10]
 :}
+checkint
+checknat
 
 
 -- 2. Although not included in appendix B, the standard prelude defines
@@ -166,6 +168,7 @@ data Prop = Const Bool
           | Imply Prop Prop
           | Or Prop Prop
           | Equivalent Prop Prop
+          deriving (Show)
 
 p1 :: Prop
 p1 = And (Var 'A') (Not (Var 'A'))
@@ -179,10 +182,11 @@ p3 = Imply (Var 'A') (And (Var 'A') (Var 'B'))
 p4 :: Prop
 p4 = Imply (And (Var 'A') (Imply (Var 'A') (Var 'B'))) (Var 'B')
 
-p5 :: Prop
-p5 = Equiv (p1 p2)
+-- p5 :: Prop
+-- p5 = Equiv (p1 p2)
 
 type Assoc k v = [(k, v)]
+
 find :: Eq k => k -> Assoc k v -> v
 find k t = head [v | (k', v) <- t, k == k']
 
@@ -198,7 +202,7 @@ eval s (Imply p q) = eval s p <= eval s q
 eval s (Or p q)    = eval s p || eval s q
 eval s (Equivalent p q) = eval s p == eval s q
 
--- funzione che ritorna una lista di tutte le Var in una Prop 
+-- funzione che ritorna una lista di tutte le Var in una Prop
 vars :: Prop -> [Char]
 vars (Const _)   = []
 vars (Var x)     = [x]
@@ -208,7 +212,7 @@ vars (Imply p q) = vars p ++ vars q
 vars (Or p q)    = vars p ++ vars q
 vars (Equivalent p q) = vars p ++ vars q
 
---funzione che genera
+-- funzione che genera una lista di liste di tutte le possibili liste di valori logici di lunghezza data
 bools :: Int -> [[Bool]]
 bools 0 = [[]]
 bools n = map (False:) bss ++ map (True:) bss
@@ -219,7 +223,7 @@ rmdups :: Eq a => [a] -> [a]
 rmdups []     = []
 rmdups (x:xs) = x : filter (/= x) (rmdups xs)
 
--- funzione che crea una tabella di sostituzione
+-- funzione che crea una tabella di Subst per una certa Prop
 substs :: Prop -> [Subst]
 substs p = map (zip vs) (bools (length vs))
            where vs = rmdups (vars p)
@@ -227,9 +231,12 @@ substs p = map (zip vs) (bools (length vs))
 -- funzione che controlla se una Prop è una tautologia
 isTaut :: Prop -> Bool
 isTaut p = and [eval s p | s <- substs p]
-
-
 :}
+
+isTaut p1 == True
+isTaut p2 == True
+isTaut p3 == True
+isTaut p4 == True
 
 
 
