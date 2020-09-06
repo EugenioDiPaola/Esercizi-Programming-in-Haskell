@@ -94,6 +94,8 @@ balanced alberoTest
 -- list into a balanced tree. Hint: first define a function that splits a list into two
 -- halves whose length differs by at most one.
 
+
+
 -- 5. Given the type declaration
 -- data Expr = Val Int | Add Expr Expr
 -- define a higher-order function
@@ -101,8 +103,35 @@ balanced alberoTest
 -- such that folde f g replaces each V a l constructor in an expression by the
 -- function f, and each A d d constructor by the function g.
 
--- 6. Using f o l d e, define a function eval :: Expr -> Int that evaluates an expression to an integer value, 
+:{
+data Expr = Val Int | Add Expr Expr
+
+folde :: (Int -> a) -> (a -> a -> a) -> Expr -> a
+folde f g (Val v) =  f v
+folde f g (Add x1 x2) = g (folde f g x1) (folde f g x2)
+:}
+
+
+-- 6. Using folde, define a function eval :: Expr -> Int that evaluates an expression to an integer value, 
 -- and a function size :: Expr -> Int that calculates the number of values in an expression.
+
+:{
+eval :: Expr -> Int
+eval e = folde id (+) e
+
+-- non capisco perchè questa verisone non mi funziona:
+
+--size :: Expr -> Int
+--size e = sum (folde (\x-> [1]) (:) e)
+
+-- altrimenti più semplicemente: 
+
+size :: Expr -> Int
+size e = folde (\x -> 1) (+) e
+
+eval (Add (Add (Add (Val 5) (Val 6)) (Add (Val 1) (Val 8))) (Val 1)) == 21
+size (Add (Add (Add (Val 5) (Val 6)) (Add (Val 1) (Val 8))) (Val 1)) == 5
+:}
 
 -- 7. Complete the following instance declarations:
 -- instance Eq a = > Eq (Maybe a) where
