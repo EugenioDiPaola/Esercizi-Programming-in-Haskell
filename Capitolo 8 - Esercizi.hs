@@ -182,12 +182,13 @@ p4 = Imply (And (Var 'A') (Imply (Var 'A') (Var 'B'))) (Var 'B')
 p5 :: Prop
 p5 = Equiv (p1 p2)
 
-type Assoc k v = [(k,v)]
+type Assoc k v = [(k, v)]
+find :: Eq k => k -> Assoc k v -> v
+find k t = head [v | (k', v) <- t, k == k']
+
 type Subst = Assoc Char Bool
 
-find :: Eq k => k -> Assoc k v -> v
-find k t = head [v | (k',v) <- t, k == k']
-
+-- funzione che valuta una Prop per una certa Subst 
 eval :: Subst -> Prop -> Bool
 eval _ (Const b)   = b
 eval s (Var x)     = find x s
@@ -197,7 +198,7 @@ eval s (Imply p q) = eval s p <= eval s q
 eval s (Or p q)    = eval s p || eval s q
 eval s (Equivalent p q) = eval s p == eval s q
 
--- funzione che genera 
+-- funzione che ritorna una lista di tutte le Var in una Prop 
 vars :: Prop -> [Char]
 vars (Const _)   = []
 vars (Var x)     = [x]
@@ -207,28 +208,54 @@ vars (Imply p q) = vars p ++ vars q
 vars (Or p q)    = vars p ++ vars q
 vars (Equivalent p q) = vars p ++ vars q
 
-
+--funzione che genera
 bools :: Int -> [[Bool]]
 bools 0 = [[]]
 bools n = map (False:) bss ++ map (True:) bss
-          where bss = bools (n-1)
+          where bss = bools (n - 1)
 
--- funzione che rimuove i duplicati
+-- funzione che rimuove i duplicati in una lista definita nel Capitolo 7
 rmdups :: Eq a => [a] -> [a]
 rmdups []     = []
 rmdups (x:xs) = x : filter (/= x) (rmdups xs)
 
+-- funzione che crea una tabella di sostituzione
 substs :: Prop -> [Subst]
 substs p = map (zip vs) (bools (length vs))
            where vs = rmdups (vars p)
-
+           
+-- funzione che controlla se una Prop è una tautologia
 isTaut :: Prop -> Bool
 isTaut p = and [eval s p | s <- substs p]
 
-p1 = And (Var 'A') (Not (Var 'A'))
-p2 = Imply (And (Var 'A') (Var 'B')) (Var 'A')
-p3 = Imply (Var 'A') (And (Var 'A') (Var 'B'))
-p4 = Imply (And (Var 'A') (Imply (Var 'A') (Var 'B'))) (Var 'B')
+
 :}
 
+
+
 -- 9. Extend the abstract machine to support the use of multiplication.
+
+:{
+data Expr = Val Int | Add Expr Expr
+value :: Expr - > Int
+value (Val n) = n
+value (Add x y) = value x + value y
+
+type Cont = [Op]
+data Op = EVAL Expr | ADD Int
+
+exec :: Cont -> Int -> Int
+exec [] n = n
+exec (EVAL y : c) n = eval y (ADD n : c)
+exec (ADD n : c) m = execc (n + m)
+
+eval :: Expr -> Cont -> Int
+eval (Val n) c = exec c n
+eval (Add x y) c = eval x (EVAL y : c)
+
+
+
+
+value :: Expr -> Int
+value e = eval e []
+:}
