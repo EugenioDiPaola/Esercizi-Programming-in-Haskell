@@ -6,7 +6,7 @@ convertCharToInt c | isLower c = [ i | (i, t) <- zip [0..25] ['a'..'z'], t == c]
 
 -- convertCharToInt :: Char -> Int
 -- convertCharToInt c | isLower c = length['a'..c] - 1
-                   | isUpper c = 26 + length['A'..c] - 1
+--                    | isUpper c = 26 + length['A'..c] - 1
 
 convertIntToChar :: Int -> Char
 convertIntToChar i | i >= 0 && i <= 25 = [ c | (c, t) <- zip ['a'..'z'] [0..25], t == i] !! 0
