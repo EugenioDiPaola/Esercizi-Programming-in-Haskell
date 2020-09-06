@@ -2,39 +2,47 @@
 -- mult :: Nat -> Nat -> Nat for the recursive type of natural numbers:
 -- Hint: make use of add in your definition.
 
-data Nat = Zero | Succ Nat
-
-add: Nat -> Nat -> Nat
-add Zero = n
-add (Succ m) n = Succ (add m n)
+:{
+data Nat = Zero | Succ Nat deriving (Show)
 
 nat2int :: Nat -> Int
 nat2int Zero = 0
 nat2int (Succ n) = 1 + nat2int n
 
 int2nat :: Int -> Nat
-int2nat 0 = Zro
+int2nat 0 = Zero
 int2nat n = Succ (int2nat (n - 1))
 
-add :: Nat -> Nat -< Nat
+add :: Nat -> Nat -> Nat
 add Zero n = n
 add (Succ m) n = Succ (add m n)
 
 mult :: Nat -> Nat -> Nat
 mult Zero _ = Zero
-mult _ Zero = Zero
-mult (Succ m
-n = add n (mult m n)
+mult (Succ m) n = add n (mult m n)
 
 -- testo se funzionano add e mult
 
-nat1 Succ Zero
-nat2 Succ nat1
+nat1 = Succ Zero
+nat2 = Succ nat1
 
-nat3 = add natUno natDue
+nat3 = add nat1 nat2
 
 nat6 = mult nat2 nat3
 
+nat10 = Succ(Succ(Succ(Succ(nat6))))
+
+int1 = nat2int(nat1)
+
+int2 = nat2int(nat3)
+
+int6 = nat2int(nat6)
+
+int10 = nat2int(nat10)
+
+checkint = [int1, int2, int6, int10]
+checknat = [nat1, nat2, nat3, nat6, nat10]
+:}
 
 
 -- 2. Although not included in appendix B, the standard prelude defines
