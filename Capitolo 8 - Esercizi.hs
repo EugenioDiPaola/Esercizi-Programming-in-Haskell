@@ -25,19 +25,13 @@ mult (Succ m) n = add n (mult m n)
 
 nat1 = Succ Zero
 nat2 = Succ nat1
-
 nat3 = add nat1 nat2
-
 nat6 = mult nat2 nat3
-
 nat10 = Succ(Succ(Succ(Succ(nat6))))
 
 int1 = nat2int(nat1)
-
 int2 = nat2int(nat3)
-
 int6 = nat2int(nat6)
-
 int10 = nat2int(nat10)
 
 checkint = [int1, int2, int6, int10]
@@ -70,6 +64,31 @@ occurs x (Node l y r)|compare x y == EQ = True
 -- Define a function balanced :: Tree a -> Bool that
 -- decides if a binary tree is balanced or not.
 -- Hint: first define a function that returns the number of leaves in a tree.
+
+-- questo albero differisce da data Tree = Leaf a | Node (Tree a) a (Tree a) nel fatto che 
+-- nessun nodo contine un valore a tranne le foglie al termine dell'albero.
+
+:{
+data Tree a = Leaf a | Node (Tree a) (Tree a)
+
+nDiFoglie :: Tree a -> Int
+nDiFoglie :: Leaf _ = 1
+nDiFoglie :: Node l r = nDiFoglie l + nDiFoglie r
+
+balanced :: Tree a -> Bool
+balanced Leaf _ = True
+balanced Node l r |nL == nR = True
+                  |abs (nL - nR) <= 1 = True && blanced && l balanced r
+                  |otherwise = False
+                  where nL = nDiFoglie l, nR = nDiFoglie r
+                  
+alberoTest1 = Node (Node (Node (Leaf 3)) Node (Node (Leaf 4 Leaf 5) Node (Leaf 6)))
+alberoTest2 = Node (Node (Node (Leaf 3)) Node (Node (Leaf 4 Leaf 5)))
+
+balanced alberoTest
+:}
+
+
 
 -- 4. Define a function balance :: [a] -> Tree a that converts a non-empty
 -- list into a balanced tree. Hint: first define a function that splits a list into two
