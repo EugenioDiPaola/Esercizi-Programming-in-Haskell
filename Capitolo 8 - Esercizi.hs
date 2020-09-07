@@ -102,15 +102,15 @@ balanced alberoTest
 -- data Expr = Val Int | Add Expr Expr
 -- define a higher-order function
 -- folde :: (Int -> a) -> (a -> a -> a) -> Expr -> a
--- such that folde f g replaces each V a l constructor in an expression by the
--- function f, and each A d d constructor by the function g.
+-- such that folde f g replaces each Val constructor in an expression by the
+-- function f, and each Add constructor by the function g.
 
 :{
 data Expr = Val Int | Add Expr Expr
 
 folde :: (Int -> a) -> (a -> a -> a) -> Expr -> a
-folde f1 F2 (Val v) =  f1 v
-folde f1 F2 (Add x1 x2) = f2 (folde f1 f2 x1) (folde f1 f2 x2)
+folde f g (Val v) =  f v
+folde f g (Add x1 x2) = g (folde f g x1) (folde f f x2)
 :}
 
 
@@ -135,6 +135,7 @@ eval (Add (Add (Add (Val 5) (Val 6)) (Add (Val 1) (Val 8))) (Val 1)) == 21
 size (Add (Add (Add (Val 5) (Val 6)) (Add (Val 1) (Val 8))) (Val 1)) == 5
 :}
 
+
 -- 7. Complete the following instance declarations:
 -- instance Eq a => Eq (Maybe a) where
 -- ...
@@ -149,7 +150,7 @@ instance Eq a => Eq (Maybe a) where
     Nothing == Just x2 = False
     Just x2 == Nothing = False
 
--- non c'è bisogno di definire come si comporta Maybe con \= perchè \= è definito in termini di ==.
+-- non c'è bisogno di definire come si comporta Maybe con \= perchè \= è già definito in termini di == nella classe Eq.
 
 instance Eq a => Eq [a] where
     [] == [] = True
