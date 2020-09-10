@@ -256,4 +256,4 @@ altMapB f1 f2 (x:y:xs) = f1 x : f2 y : altMapB f1 f2 xs
 
 
 luhn :: [Int] -> Bool
-luhn xs = (mod) sum (map (`mod` 9) ((altMapB (*2) id) xs)) 10 == 0
+luhn xs = sum (map (`mod` 9) ((altMapB (*2) id) xs)) `mod` 10 == 0
