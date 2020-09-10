@@ -1,6 +1,4 @@
--- CH.6 RECURSIVE FUNCTIONS - Programming in Haskell - Graham Hutton - II Edizione (2016)
-
--- Interpreter: GHCi
+-- CAPITOLO 6 - RECURSIVE FUNCTIONS - Programming in Haskell - Graham Hutton - II Edizione (2016)
 
 -- 1. How does the recursive version of the factorial function behave if applied to a
 -- negative argument, such as (-1)? Modify the definition to prohibit negative
@@ -21,6 +19,7 @@ sumdown x | x < 0 = 0
           | x == 0 = 0
           | x > 0 = x + sumdown (x - 1)
 	  
+	  
 -- 3. Define the exponentiation operator ^ for non-negative integers using the
 -- same pattern of recursion as the multiplication operator *, and show
 -- how 2 ^ 3 is evaluated using your definition.
@@ -28,10 +27,8 @@ sumdown x | x < 0 = 0
 -- * in forma ricorsiva è:
 
 (^) :: Int -> Int -> Int
-| m < 0
 (^) m 0 = 1
 (^) m n = m * m ^ (n - 1)
-
 
 {- 2 ^ 3
  - 2 * 2 ^ (3 - 1)
@@ -46,21 +43,26 @@ sumdown x | x < 0 = 0
  - 8
  -}
 
--- Non mi è chiarissimo perché si ferma a 0 e non diminuisce l'esponenete anche nei numeri negativi 
+-- Non mi è chiarissimo perché si ferma a 0 e non diminuisce l'esponenete anche nei numeri negativi... ah sì, è perchè l'argomento è un Int.
 
 
--- 4. Define a recursive function e u c l i d : : I n t - > I n t - > I n t that implements
--- Euclid’s algorithm for calculating the greatest common divisor of two nonnegative integers: if the two numbers are equal, this number is the result;
+-- 4. Define a recursive function euclid :: Int -> Int -> Int that implements
+-- Euclid’s algorithm for calculating the greatest common divisor of two nonnegative integers: if the two numbers are equal, 
+-- this number is the result;
 -- otherwise, the smaller number is subtracted from the larger, and the same
 -- process is then repeated. For example:
 -- > euclid 6 27
 -- 3
 
+euclid :: Int -> Int -> Int
+euclid a 0 = a
+euclid a b = euclid b (mod a b)
 
--- 5. Using the recursive definitions given in this chapter, show how l e n g t h [ 1 , 2 , 3 ],
+
+-- 5. Using the recursive definitions given in this chapter, show how length [ 1 , 2 , 3 ],
 -- drop 3 [1, 2, 3, 4, 5], and init [1, 2, 3] are evaluated.
 
--- non c'ho voglia
+-- non c'ho voglia, non è niente di che.
 
 
 -- 6. Without looking at the definitions from the standard prelude, define the
@@ -130,14 +132,48 @@ merge (x:xs) (y:ys) | x <= y =  [x,y] ++ merge xs ys
 -- Notare che è diverso dal classico algoritmo di merge sort
 
 
--- 8. Using merge, define a recursive function msort :: Ord a ⇒ [a] -> [a]
+-- 8. Using merge, define a recursive function msort :: Ord a => [a] -> [a]
 -- that implements merge sort, in which the empty list and singleton lists
 -- are already sorted, and any other list is sorted by merging together the
 -- two lists that result from sorting the two halves of the list separately.
--- Hint: first define a function halve :: [a ] → [([a ], [a ])] that splits a list
+-- Hint: first define a function halve :: [a] -> ([a], [a]) that splits a list
 -- into two halves whose length differs by at most one.
 
+primiN :: [a] -> Int -> [a]
+primiN _ 0 = []
+primiN (x:xs) n = x : (primiN xs (n-1))
 
+ultimiN :: [a] -> Int -> [a]
+ultimiN _ 0 = []
+ultimiN xs n = reverse (take n (reverse xs))
+
+halve :: [a] -> ([a], [a])
+halve xs |even (length xs) = (primiN xs n, ultimiN xs n)
+	 |odd (length xs) = (primiN xs (n + 1), ultimiN xs (n + 1))
+          	where n = div (length xs) 2
+
+primo = \(x,y) -> x
+secondo = \(x,y) -> y
+
+msort :: [a] -> [([a], [a])]
+msort [] = [([], [])]
+msort [x] = [([], [])]
+msort xs = merge (msort (primo h)) (msort (secondo h))
+           where h = halve x
+	   		
+			
 -- 9. Using the five step process, define the library functions that calculate
 -- the sum of a list of numbers, take a given number of elements from the
 -- start of a list, and select the last element of a non-empty list.
+
+sum :: [a] -> a
+sum [] = 0
+sum (x:xs) = x + sum xs
+
+take :: Int -> [a] -> [a]
+take 0 xs = []
+take n (x:xs) = x : take (n-1) xs
+
+selectLast :: [a] -> a
+selectLast (x:[]) = x
+selectLast (x:xs) = last xs
