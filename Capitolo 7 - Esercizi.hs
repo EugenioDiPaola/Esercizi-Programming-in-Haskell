@@ -221,16 +221,16 @@ transmit = decode . channel . encode
 channel :: [Bit] -> [Bit]
 channel = id
 
-
-
 transmit "higher-order functions are easy"
 "higher-orderfunction sare easy"
 
-canaleRumoroso :: [Bit] -> [Bit]
 
 -- 8. Test your new string transmitter program from the previous exercise using a
 -- faulty communication channel that forgets the first bit, which can be modelled 
 -- using the tail function on lists of bits.
+
+canaleRumoroso :: [Bit] -> [Bit]
+canaleRumoroso = tail
 
 
 -- 9. Define a function altMap :: (a -> b) -> (a -> b) -> [a] -> [b] that
