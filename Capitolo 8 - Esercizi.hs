@@ -240,30 +240,27 @@ isTaut p3 == True
 isTaut p4 == True
 
 
-
 -- 9. Extend the abstract machine to support the use of multiplication.
 
 :{
-data Expr = Val Int | Add Expr Expr
-value :: Expr - > Int
-value (Val n) = n
-value (Add x y) = value x + value y
+data Expr = Val Int | Add Expr Expr | Mult Expr Expr
 
 type Cont = [Op]
-data Op = EVAL Expr | ADD Int
+
+data Op = EVALADD Expr | ADD Int | EVALMULT Expr | MULT Int
+
+evalmult :: Expr -> Cont -> Int
+evalmult (Val n) c = exec c n
+evalmult (Add x y) c = evalmult x (EVALADD y : c)
+evalmult (Mult x y) c = evalmult x (EVALMULT y : c)
 
 exec :: Cont -> Int -> Int
 exec [] n = n
-exec (EVAL y : c) n = eval y (ADD n : c)
-exec (ADD n : c) m = execc (n + m)
-
-eval :: Expr -> Cont -> Int
-eval (Val n) c = exec c n
-eval (Add x y) c = eval x (EVAL y : c)
-
-
-
+exec (EVALADD y : c)  n = evalmult y (ADD n : c)
+exec (EVALMULT y : c) n = evalmult y (MULT n : c)
+exec (ADD n : c) m = exec c (n + m)
+exec (MULT n : c) m = exec c (n * m)
 
 value :: Expr -> Int
-value e = eval e []
+value e = evalmult e []
 :}
