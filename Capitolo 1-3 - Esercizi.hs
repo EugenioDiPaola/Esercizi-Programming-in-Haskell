@@ -48,7 +48,7 @@ qsortReverse (x:xs) = qsortReverse smaller ++ [x] ++ qsortReverse larger
 -- Rimuove i duplicati, cioè qsortReverse [2, 2, 3, 1, 1] con <= invece che < restituisce [1, 2, 3] invece che [1, 1, 2, 2, 3].
 
 
-
+-- ________________________________________________________________________________________
 -- CAPITOLO 2 - FIRST STEPS - Programming with Haskell - Graham Hutton - II Edizione (2016)
 
 -- 1. Parenthesise the following arithmetic expressions:
@@ -61,25 +61,42 @@ qsortReverse (x:xs) = qsortReverse smaller ++ [x] ++ qsortReverse larger
 -- 2 + (3 * (4 * 5))
 
 
--- 2. Work through the examples from this chapter using Hugs.
-
+-- 2. Work through the examples from this chapter using GHCi.
 
 -- 3. The script below contains three syntactic errors. Correct these errors
 -- and then check that your script works properly using Hugs.
 -- N = a ’div’ length xs
--- where
--- a = 10
--- xs = [1, 2, 3, 4, 5]
+--    where
+--        a = 10
+--        xs = [1, 2, 3, 4, 5]
+
+n = (div) a (length xs)
+  where
+    a = 10
+    xs = [1, 2, 3, 4, 5]
 
 
 -- 4. Show how the library function last that selects the last element of a nonempty list could be defined in terms of the library functions introduced
 -- in this chapter. Can you think of another possible definition?
 
+last1 :: [a] -> a
+last1 xs = xs !! (length xs -1)
+
+last2 :: [a] -> a
+last2 xs = head (reverse xs)
+
 
 -- 5. Show how the library function init that removes the last element from
 -- a non-empty list could similarly be defined in two different ways.
 
+init1 :: [a] -> [a]
+init1 [] = []
+init1 xs = take ((length xs) − 1) xs
 
+init2 :: [a] -> [a]
+init2 [] = []
+init2 xs = reverse (tail (reverse xs))
+-- _________________________________________________________________________________________
 -- CAPITOLO 3 - INTRODUCTION - Programming with Haskell - Graham Hutton - II Edizione (2016)
 
 -- 1. What are the types of the following values?
