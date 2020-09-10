@@ -96,6 +96,9 @@ init1 xs = take ((length xs) − 1) xs
 init2 :: [a] -> [a]
 init2 [] = []
 init2 xs = reverse (tail (reverse xs))
+
+
+
 -- _________________________________________________________________________________________
 -- CAPITOLO 3 - INTRODUCTION - Programming with Haskell - Graham Hutton - II Edizione (2016)
 
