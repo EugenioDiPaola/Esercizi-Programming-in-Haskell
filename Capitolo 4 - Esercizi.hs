@@ -25,8 +25,27 @@ halve2 xs |even (length xs) = (take (div (length xs) 2) xs, drop (div (length xs
           |odd (length xs) = (take (d + 1) xs, drop d xs)
           	where d = div (length xs) 2
 
+
+-- 2. Define a function t h i r d : : [ a ] - > a that returns the third element in a list
+-- that contains at least this many elements using:
+-- a. h e a d and t a i l;
+-- b. list indexing ! !;
+-- c. pattern matching.
+
+thirdA :: [a] -> a
+thirdA xs = if (length xs < 3) then error "lista troppo corta"
+thirdA xs = head (tail (tail xs))
+
+thirdB :: [a] -> a
+thirdB xs = if (length xs < 3) then error "lista troppo corta"
+thirdB xs = xs !! 2
+
+thirdC :: [a] -> a
+thirdC xs = if (length xs < 3) then error "lista troppo corta"
+thirdC (_:_:x3:_) = x3
+
 	
--- 2. Consider a function safetail :: [a] -> [a] that behaves as the library
+-- 3. Consider a function safetail :: [a] -> [a] that behaves as the library
 -- function tail, except that safetail maps the empty list to itself, whereas
 -- tail produces an error in this case. Define safetail using:
 -- (a) a conditional expression;
@@ -45,7 +64,8 @@ safetailC :: [a] -> [a]
 safetailC [] = []
 safetailC (_:xs) = xs
 
--- 3. In a similar way to ∧, show how the logical disjunction operator ∨ can
+
+-- 4. In a similar way to ∧, show how the logical disjunction operator ∨ can
 -- be defined in four different ways using pattern matching.
 
 (||\) :: Bool -> Bool -> Bool
@@ -67,7 +87,7 @@ False ||| b = b
           |otherwise = True
 	  
 
--- 4. Redefine the following version of the conjunction operator using conditional expressions 
+-- 5. Redefine the following version of the conjunction operator using conditional expressions 
 -- rather than pattern matching:
 -- True && True = True
 -- _ && _ = False
@@ -77,7 +97,7 @@ False ||| b = b
 	    else False
             
 
--- 5. Do the same for the following version, and note the difference in the
+-- 6. Do the same for the following version, and note the difference in the
 -- number of conditional expressions required:
 -- True ∧ b = b
 -- False ∧ = False
@@ -87,7 +107,8 @@ f a b = if (a == True && b == True) then True
 	if (a == True && b == False) then False
 	else False
 
--- 6. Show how the curried function definition mult x y z = x * y * z can be
+
+-- 7. Show how the curried function definition mult x y z = x * y * z can be
 -- understood in terms of lambda expressions.
 
 mult :: Num a => a -> a -> a -> a
@@ -101,6 +122,7 @@ mult = \x -> \y ->\ z -> x * y * z
 
 map (mult 3 4) [1..10]
 [12, 24, 36, 48, 60, 72, 84, 96, 108, 120]
+
 
 -- 8. The Luhn algorithm is used to check bank card numbers for simple errors
 -- such as mistyping a digit, and proceeds as follows:
@@ -127,4 +149,4 @@ map (mult 3 4) [1..10]
 luhnDouble = \x -> if x * 2 > 9 then x * 2 - 9 else 2 * x
 
 luhn = \x1 x2 x3 x4 -> (if (mod (luhnDouble x3 + luhnDouble x1 + x2 + x4) 10 == 0) then True else False)
-       
+   
