@@ -254,6 +254,6 @@ altMapB f1 f2 (x:y:xs) = f1 x : f2 y : altMapB f1 f2 xs
 -- the Luhn algorithm from the exercises in chapter 4 for bank card numbers of
 -- any length. Test your new function using your own bank card.
 
-luhn ::
 
-
+luhn :: [Int] -> Bool
+luhn xs = (mod) sum (map (`mod` 9) ((altMapB (*2) id) xs)) 10 == 0
