@@ -155,9 +155,9 @@ halve xs |even (length xs) = (primiN xs n, ultimiN xs n)
 primo = \(x,y) -> x
 secondo = \(x,y) -> y
 
-msort :: [a] -> [([a], [a])]
+msort :: Ord a = > [a] -> [([a], [a])]
 msort [] = [([], [])]
-msort [x] = [([], [])]
+msort [x] = [x]
 msort xs = merge (msort (primo h)) (msort (secondo h))
            where h = halve x
 	   		
