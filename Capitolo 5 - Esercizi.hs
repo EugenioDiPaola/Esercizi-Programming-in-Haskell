@@ -3,6 +3,7 @@
 
 sum [x * x | x <- [1..100]]
 
+
 -- 2. Suppose that a coordinate grid of size m x n is given by the list of all pairs
 -- (x, y) of integers such that 0 <= x <= m and 0 <= y >= n. Using a list comprehension, define a function g r i d : : I n t - > I n t - > [ ( I n t , I n t ) ] that returns a
 -- coordinate grid of a given size. For example:
@@ -54,6 +55,7 @@ pyths n = [(x, y, z) | x <- [1..n], y <- [1..n], z <- [1..n], x^2 + y^2 == z^2]
 factors :: Int -> [Int]
 factors n = [x | x <- [1..n], (mod) n x == 0]
 
+
 -- 6. A positive integer is perfect if it equals the sum of all of its factors, excluding
 -- the number itself. Using a list comprehension and the function factors, define
 -- a function perfects :: Int -> [Int] that returns the list of all perfect
@@ -70,7 +72,8 @@ perfects n = [x | x <- [1..n], (sum (factors x) - x)  == x]
 -- Hint: nest one comprehension within the other and make use of the
 -- library function concat :: [[a]] -> [a].
 
-c = concat [[(x, y) | ]]
+nuovaComprehesion :: [(Int,Int)]
+nuovaComprehesion = concat [[(x,y) | y <- [3,4]] | x <- [1,2]]
 
 
 -- 8. Redefine the function positions using the function find.
@@ -81,6 +84,7 @@ find k t = [v | (k', v) <- t, k == k']
 positions :: Eq a => a -> [a] -> [Int]
 positions x xs = [i | (x', i) <- zip xs [0..n], x == x']
                  where n = length xs − 1
+
 
 -- 9. The scalar product of two lists of integers xs and ys of length n is given
 -- by the sum of the products of corresponding integers:
@@ -93,6 +97,7 @@ positions x xs = [i | (x', i) <- zip xs [0..n], x == x']
 
 scalarproduct :: [Int] -> [Int] -> Int
 scalarproduct xs ys = sum [x * y | (x,y) <- zip xs ys]
+
 
 -- 10. Modify the Caesar cipher program to also handle upper-case letters.
 
