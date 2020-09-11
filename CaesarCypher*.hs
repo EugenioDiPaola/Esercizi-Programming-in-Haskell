@@ -1,3 +1,5 @@
+-- Interessante notare che è il programma è più compatto che la versione in C++ CaesarChyper.cpp
+
 import Data.Char;
 
 convertCharToInt :: Char -> Int
