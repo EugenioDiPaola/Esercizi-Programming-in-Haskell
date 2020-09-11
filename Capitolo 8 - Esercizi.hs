@@ -96,7 +96,6 @@ balanced alberoTest
 -- halves whose length differs by at most one.
 
 :{
-
 data Tree a = Leaf a | Node (Tree a) (Tree a) deriving (Show)
 
 halve :: [a] -> [[a]]
@@ -120,7 +119,7 @@ balance [1..100]
 -- function f, and each Add constructor by the function g.
 
 :{
-data Expr = Val Int | Add Expr Expr
+data Expr = Val Int | Add Expr Expr deriving (Show)
 
 folde :: (Int -> a) -> (a -> a -> a) -> Expr -> a
 folde f g (Val v) =  f v
@@ -168,7 +167,7 @@ instance Eq a => Eq (Maybe a) where
 
 instance Eq a => Eq [a] where
     [] == [] = True
-    x:xs == y:ys = x == y && xs == ys
+    x:xs == y:ys = (x == y && xs == ys)
     _ == _ = False
 
 
