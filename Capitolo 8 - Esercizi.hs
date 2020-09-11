@@ -91,11 +91,25 @@ balanced alberoTest
 :}
 
 
-
 -- 4. Define a function balance :: [a] -> Tree a that converts a non-empty
 -- list into a balanced tree. Hint: first define a function that splits a list into two
 -- halves whose length differs by at most one.
 
+:{
+
+data Tree a = Leaf a | Node (Tree a) (Tree a) deriving (Show)
+
+halve :: [a] -> [[a]]
+halve xs |even (length xs) = [take (div (length xs) 2) xs, drop (div (length xs) 2) xs]
+         |odd (length xs) = [take (d + 1) xs, drop d xs]
+          	where d = div (length xs) 2
+
+balance :: [a] -> Tree a
+balance [l] = Leaf l
+balance xs = Node (balance ((halve xs) !! 0)) (balance ((halve xs) !! 1))
+
+balance [1..100]
+:}
 
 
 -- 5. Given the type declaration
@@ -221,7 +235,7 @@ bools n = map (False:) bss ++ map (True:) bss
 
 -- funzione che rimuove i duplicati in una lista definita nel Capitolo 7
 rmdups :: Eq a => [a] -> [a]
-rmdups []     = []
+rmdups [] = []
 rmdups (x:xs) = x : filter (/= x) (rmdups xs)
 
 -- funzione che crea una tabella di Subst per una certa Prop
